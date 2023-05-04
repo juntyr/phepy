@@ -99,6 +99,8 @@ fig = plot_all_toy_examples(
 plt.show()
 ```
 
+![By-example evaluation of Local Outlier Factor as a distance-based OOD detection method](examples/minimal.png)
+
 In the above figure, the single row showcases the Local Outlier Factor (LOF, [^1]) method, while the three columns contain the following three test cases:
 
 * Two groups of training points are scattered along a line in the 2D feature space. The target variable only depends on the location along the line. In this example, points off the line are OOD.
