@@ -1,0 +1,54 @@
+[project]
+name = "phepy"
+version = "0.0.0"
+requires-python = ">=3.7"
+description = "Intuitive evaluation of out-of-distribution detectors using simple toy examples."
+readme = "README.md"
+license = "MIT OR Apache-2.0"
+authors = [
+    { name = "Juniper Tyree", email = "juniper.tyree@helsinki.fi" }
+]
+maintainers = [
+    { name = "Juniper Tyree", email = "juniper.tyree@helsinki.fi" }
+]
+dependencies = [
+    "matplotlib >= 3.0",
+    "numpy >= 1.0",
+]
+
+[project.optional-dependencies]
+dev = ["black", "build", "bumpver", "pyproject-flake8", "isort", "twine"]
+example = ["jupyter", "sklearn"]
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["phepy*"]
+namespaces = true
+
+[tool.black]
+target-version = ['py37']
+line-length = 79
+preview = true
+
+[tool.isort]
+py_version = 37
+profile = "black"
+line_length = 79
+
+[tool.flake8]
+
+[tool.bumpver]
+current_version = "0.1.0"
+version_pattern = "MAJOR.MINOR.PATCH"
+commit_message  = "Bump version {old_version} -> {new_version}"
+commit          = true
+tag             = true
+push            = false
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = ['current_version = "{version}"', 'version = "{version}"']
+"CITATION.cff" = ['^version: {version}', "^commit: '{version}'", 'https://pypi.org/project/phepy/{version}/', 'https://github.com/juntyr/phepy/releases/tag/{version}', "date-released: 'YYYY-0M-0D'"]

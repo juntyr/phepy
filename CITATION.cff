@@ -1,0 +1,35 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: phepy
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Juniper
+    family-names: Tyree
+    affiliation: University of Helsinki
+    email: juniper.tyree@helsinki.fi
+    orcid: 'https://orcid.org/0000-0002-7923-9609'
+identifiers:
+  - type: url
+    value: >-
+      https://github.com/juntyr/phepy/releases/tag/0.0.0
+    description: The GitHub release
+  - type: url
+    value: 'https://pypi.org/project/phepy/0.0.0/'
+    description: The PyPi release
+repository-code: 'https://github.com/juntyr/phepy'
+abstract: >-
+  Intuitive evaluation of out-of-distribution detectors
+  using simple toy examples.
+keywords:
+  - out-of-distribution
+  - visualisation
+  - explainable-ai
+license: MIT OR Apache-2.0
+commit: '0.0.0'
+version: 0.0.0
+date-released: '2023-05-04'
