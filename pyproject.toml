@@ -4,7 +4,7 @@ version = "0.0.0"
 requires-python = ">=3.7"
 description = "Intuitive evaluation of out-of-distribution detectors using simple toy examples."
 readme = "README.md"
-license = "MIT OR Apache-2.0"
+license = { file = "LICENSE-APACHE" }
 authors = [
     { name = "Juniper Tyree", email = "juniper.tyree@helsinki.fi" }
 ]
