@@ -42,7 +42,7 @@ cd phepy && pip install .
 
 ## Usage Example
 
-The following code snippet only provides a minimal example to get started, please refer to the [`examples`](examples) folder to find more extensive examples.
+The following code snippet only provides a minimal example to get started, please refer to the [`examples`](https://github.com/juntyr/phepy/tree/main/examples) folder to find more extensive examples.
 
 ```python
 # Import numpy, matplotlib, and sklearn
@@ -99,7 +99,7 @@ fig = plot_all_toy_examples(
 plt.show()
 ```
 
-![By-example evaluation of Local Outlier Factor as a distance-based OOD detection method](examples/minimal.png)
+![By-example evaluation of Local Outlier Factor as a distance-based OOD detection method](https://raw.githubusercontent.com/juntyr/phepy/main/examples/minimal.png)
 
 In the above figure, the single row showcases the Local Outlier Factor (LOF, [^1]) method, while the three columns contain the following three test cases:
 
@@ -115,8 +115,8 @@ The Local Outlier Factor (LOF, [^1]) estimates the training data density around 
 
 Licensed under either of
 
-* Apache License, Version 2.0 ([`LICENSE-APACHE`](LICENSE-APACHE) or http://www.apache.org/licenses/LICENSE-2.0)
-* MIT license ([`LICENSE-MIT`](LICENSE-MIT) or http://opensource.org/licenses/MIT)
+* Apache License, Version 2.0 ([`LICENSE-APACHE`](https://github.com/juntyr/phepy/blob/main/LICENSE-APACHE) or http://www.apache.org/licenses/LICENSE-2.0)
+* MIT license ([`LICENSE-MIT`](https://github.com/juntyr/phepy/blob/main/LICENSE-MIT) or http://opensource.org/licenses/MIT)
 
 at your option.
 
@@ -126,6 +126,6 @@ Unless you explicitly state otherwise, any contribution intentionally submitted 
 
 ## Citation
 
-Please refer to the [CITATION.cff](CITATION.cff) file and refer to https://citation-file-format.github.io to extract the citation in a format of your choice.
+Please refer to the [CITATION.cff](https://github.com/juntyr/phepy/blob/main/CITATION.cff) file and refer to https://citation-file-format.github.io to extract the citation in a format of your choice.
 
 [^1]: M. M. Breunig *et al*. LOF: Identifying Density-Based Local Outliers. *Proceedings of the 2000 ACM SIGMOD International Conference on Management of Data*. SIGMOD '00. Dallas, Texas, USA: Associ- ation for Computing Machinery, 2000, 93–104. Available from: [doi:10.1145/342009.335388](https://doi.org/10.1145/342009.335388).
