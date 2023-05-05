@@ -1,0 +1,94 @@
+site_name: phepy
+site_url: https://juntyr.github.io/phepy
+repo_url: https://github.com/juntyr/phepy
+edit_uri: edit/main/
+
+docs_dir: .
+site_dir: ../site
+strict: true
+
+extra:
+  version:
+    default:
+      - stable
+      - dev
+    provider: mike
+
+markdown_extensions:
+  - footnotes
+  - pymdownx.superfences
+  - toc
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - codehilite
+
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+  custom_dir: overrides
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: deep orange
+      toggle:
+        icon: material/lightbulb
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep orange
+      accent: deep purple
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to light mode
+  features:
+    - navigation.tracking
+    - navigation.sections
+    - navigation.indexes
+    - content.action.edit
+    - content.action.view
+
+nav:
+  - Home: "index.md"
+  - Documentation:
+      - phepy: "api/"
+  - Links:
+      - GitHub: https://github.com/juntyr/phepy
+      - PyPI: https://pypi.org/project/phepy/
+      - Examples: https://github.com/juntyr/phepy/tree/main/examples
+
+plugins:
+  - gen-files:
+      scripts:
+        - generate_api.py
+  - literate-nav:
+      nav_file: SUMMARY.md
+  - exclude:
+      glob:
+        - overrides/*
+        - generate_api.py
+        - mkdocs.yml
+        - requirements.txt
+  - search
+  - include-markdown
+  - mkdocstrings:
+      enable_inventory: true
+      handlers:
+        python:
+          options:
+              docstring_section_style: spacy
+              docstring_style: google
+              merge_init_into_class: true
+              show_if_no_docstring: true
+              filters: ["!^_[^_]", "!^__", "^__.*__$"]
+              members_order: source
+              group_by_category: false
+              separate_signature: true
+              show_signature_annotations: true
+              show_submodules: false
+          import:
+            - https://docs.python.org/3/objects.inv
+            - https://numpy.org/doc/stable/objects.inv
+            - https://matplotlib.org/objects.inv
+  - mike

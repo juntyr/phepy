@@ -3,8 +3,7 @@ from typing import Dict, List, Union
 import matplotlib as mpl
 import numpy as np
 
-from .detector import OutOfDistributionScorer
-from .toys import ToyExample
+from . import OutOfDistributionScorer, ToyExample
 
 
 def plot_all_toy_examples(
@@ -14,6 +13,31 @@ def plot_all_toy_examples(
     with_cbar: bool = True,
     with_titles: bool = True,
 ) -> mpl.figure.Figure:
+    """Plot the out-of-distribution (OOD) detection performance
+    of all given scorers across all given toy examples.
+
+    Note that the provided scorers and their detectors will be
+    refitted and recalibrated for each toy example.
+
+    Args:
+      scorers:
+        mapping from OOD scoring method name to an instance
+        of the method
+      toys:
+        list of toy examples
+      cmap:
+        name or instance of a matplotlib Colormap that
+        is used to encode the confidence score
+      with_cbar:
+        whether a colorbar should be produced for each
+        row of subplots
+      with_titles:
+        whether each method's name should be added as a
+        title to each row of subplots
+
+    Returns:
+      The created matplotlib figure.
+    """
     width_ratios = [toy.aspect_ratio for toy in toys]
 
     if with_cbar:

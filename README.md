@@ -1,7 +1,10 @@
-# phepy &emsp; [![PyPi]][pypi-url] [![License Apache-2.0]][apache-2.0] [![License MIT]][mit] [![CI Status]][ci-status]
+# phepy &emsp; [![PyPi]][pypi-url]  [![License Apache-2.0]][apache-2.0] [![License MIT]][mit] [![Docs]][docs-stable] [![CI Status]][ci-status]
 
 [PyPI]: https://img.shields.io/pypi/v/phepy
 [pypi-url]: https://pypi.org/project/phepy
+
+[Docs]: https://img.shields.io/pypi/v/phepy?color=blue&label=Docs
+[docs-stable]: https://juntyr.github.io/phepy/
 
 [License Apache-2.0]: https://img.shields.io/badge/License-Apache_2.0-yellowgreen.svg
 [apache-2.0]: https://opensource.org/licenses/Apache-2.0

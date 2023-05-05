@@ -41,6 +41,15 @@ class OutOfDistributionScorer(abc.ABC):
 
     @abc.abstractmethod
     def predict(self, X_test: np.ndarray) -> np.ndarray:
+        """Predict the confidence scores for several test data inputs.
+
+        Args:
+          X_test:
+            numpy array of shape `N_SAMPLES x N_FEATURES`
+
+        Returns:
+          The array confidence scores of shape `N_SAMPLES`
+        """
         pass
 
 

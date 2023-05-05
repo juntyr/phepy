@@ -1,0 +1,9 @@
+black
+mike
+mkdocs
+mkdocs-material
+mkdocstrings[python]
+mkdocs-include-markdown-plugin
+mkdocs-gen-files
+mkdocs-literate-nav
+mkdocs-exclude
