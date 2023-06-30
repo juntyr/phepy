@@ -9,9 +9,9 @@ from . import ToyExample
 
 
 class CircleToyExample(ToyExample):
-    def __init__(self, rng: np.random.Generator) -> CircleToyExample:
-        N = 10_000 * 2
-
+    def __init__(
+        self, rng: np.random.Generator, N: int = 10_000
+    ) -> CircleToyExample:
         Y = np.sin(np.linspace(0, np.pi * 8.0, N))
 
         X1 = np.sin(np.linspace(0, np.pi * 2.0, N)) * (5 + Y)
@@ -79,6 +79,8 @@ class CircleToyExample(ToyExample):
         ax: mpl.axes.Axes,
         cmap: Union[str, mpl.colors.Colormap],
     ):
+        N_skip = len(self.X_train) // 40
+
         ax.imshow(
             conf.reshape(np.mgrid[-7.5:7.5:0.01, -7.5:7.5:0.01][0].shape).T,
             cmap=cmap,
@@ -94,16 +96,16 @@ class CircleToyExample(ToyExample):
         ax.set_ylim(-7.5, 7.5)
 
         ax.scatter(
-            self.X_train[::250, 0],
-            self.X_train[::250, 1],
+            self.X_train[::N_skip, 0],
+            self.X_train[::N_skip, 1],
             c="white",
             marker="x",
             lw=3,
             s=48,
         )
         ax.scatter(
-            self.X_train[::250, 0],
-            self.X_train[::250, 1],
+            self.X_train[::N_skip, 0],
+            self.X_train[::N_skip, 1],
             c="black",
             marker="x",
         )

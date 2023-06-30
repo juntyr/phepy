@@ -9,8 +9,10 @@ from . import ToyExample
 
 
 class HaystackToyExample(ToyExample):
-    def __init__(self, rng: np.random.Generator) -> HaystackToyExample:
-        N = 10_000 * 2
+    def __init__(
+        self, rng: np.random.Generator, N: int = 10_000
+    ) -> HaystackToyExample:
+        N *= 2
 
         n = 10
         a = 2

@@ -9,9 +9,9 @@ from . import ToyExample
 
 
 class LineToyExample(ToyExample):
-    def __init__(self, rng: np.random.Generator) -> LineToyExample:
-        N = 10_000
-
+    def __init__(
+        self, rng: np.random.Generator, N: int = 10_000
+    ) -> LineToyExample:
         X1 = np.concatenate(
             [np.linspace(0, 4, N // 2), np.linspace(6, 10, N // 2)]
         )
@@ -73,6 +73,8 @@ class LineToyExample(ToyExample):
         ax: mpl.axes.Axes,
         cmap: Union[str, mpl.colors.Colormap],
     ):
+        N_skip = len(self.X_train) // 40
+
         ax.imshow(
             conf.reshape(np.mgrid[-2:12:0.01, -1:8:0.01][0].shape).T,
             cmap=cmap,
@@ -88,16 +90,16 @@ class LineToyExample(ToyExample):
         ax.set_ylim(-1, 8)
 
         ax.scatter(
-            self.X_train[::250, 0],
-            self.X_train[::250, 1],
+            self.X_train[::N_skip, 0],
+            self.X_train[::N_skip, 1],
             c="white",
             marker="x",
             lw=3,
             s=48,
         )
         ax.scatter(
-            self.X_train[::250, 0],
-            self.X_train[::250, 1],
+            self.X_train[::N_skip, 0],
+            self.X_train[::N_skip, 1],
             c="black",
             marker="x",
         )
