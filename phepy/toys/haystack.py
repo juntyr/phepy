@@ -4,6 +4,7 @@ from typing import Union
 
 import matplotlib as mpl
 import numpy as np
+import scipy as sp
 
 from . import ToyExample
 
@@ -24,6 +25,7 @@ class HaystackToyExample(ToyExample):
         A = A * np.transpose(A)
         D_half = np.diag(np.diag(A) ** (-0.5))
         covs = D_half * A * D_half
+        self.__covs = covs
 
         X = rng.multivariate_normal(np.zeros(shape=n), covs, size=N)
         X[:, 3] = -0.42
@@ -75,6 +77,26 @@ class HaystackToyExample(ToyExample):
         return X * np.array(
             [[1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]]
         ) - np.array([[0.0, 0.0, 0.0, 0.42, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]])
+
+    def normalised_pdf(self, X: np.ndarray) -> np.ndarray:
+        mean = np.zeros(shape=(10,))
+        mean[3] = -0.42
+
+        cov = np.copy(self.__covs)
+        cov[3, :] = 0.0
+        cov[:, 3] = 0.0
+
+        return sp.stats.multivariate_normal.pdf(
+            X,
+            mean=mean,
+            cov=cov,
+            allow_singular=True,
+        ) / sp.stats.multivariate_normal.pdf(
+            mean,
+            mean=mean,
+            cov=cov,
+            allow_singular=True,
+        )
 
     @property
     def aspect_ratio(self) -> float:

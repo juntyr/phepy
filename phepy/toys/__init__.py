@@ -35,6 +35,10 @@ class ToyExample(abc.ABC):
     def reconstruct(X: np.ndarray) -> np.ndarray:
         pass
 
+    @abc.abstractmethod
+    def normalised_pdf(X: np.ndarray) -> np.ndarray:
+        pass
+
     @property
     @abc.abstractmethod
     def aspect_ratio(self) -> float:

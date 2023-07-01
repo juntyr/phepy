@@ -57,6 +57,17 @@ def plot_all_toy_examples(
             scorer.calibrate(toy.X_valid, toy.Y_valid)
 
             conf = scorer.predict(toy.X_test)
+            expected = toy.normalised_pdf(toy.X_test)
+
+            TP = np.sum(conf * expected)
+            FP = np.sum(conf * (1 - expected))
+            # TN = np.sum((1 - conf) * (1 - expected))
+            FN = np.sum((1 - conf) * expected)
+
+            precision = TP / (TP + FP)
+            f1 = 2 * TP / (2 * TP + FP + FN)
+
+            print(precision, f1)
 
             toy.plot(conf, ax, cmap)
 
