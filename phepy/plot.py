@@ -1,10 +1,27 @@
-from typing import Dict, List, Union
+import sys
+import time
+from dataclasses import dataclass
+from gc import get_referents
+from types import FunctionType, ModuleType
+from typing import Any, Callable, Dict, List, Optional, Union
 
 import matplotlib as mpl
 import numpy as np
-from sklearn.metrics import roc_auc_score
 
 from . import OutOfDistributionScorer, ToyExample
+
+
+@dataclass
+class Evaluation:
+    fit_time: float
+    calibrate_time: float
+    predict_time: float
+
+    detector_size: int
+    scorer_size: int
+
+    expected: np.ndarray
+    confidence: np.ndarray
 
 
 def plot_all_toy_examples(
@@ -13,7 +30,17 @@ def plot_all_toy_examples(
     cmap: Union[str, mpl.colors.Colormap],
     with_cbar: bool = True,
     with_titles: bool = True,
-    with_scores: bool = False,
+    with_scorer: Optional[
+        Callable[
+            [
+                OutOfDistributionScorer,
+                ToyExample,
+                Evaluation,
+                mpl.axes.Axes,
+            ],
+            None,
+        ]
+    ] = None,
 ) -> mpl.figure.Figure:
     """Plot the out-of-distribution (OOD) detection performance
     of all given scorers across all given toy examples.
@@ -36,9 +63,9 @@ def plot_all_toy_examples(
       with_titles:
         whether each method's name should be added as a
         title to each row of subplots
-      with_scores:
-        whether each method's precision, F1, and ROC-AUC
-        scores should be displayed for each toy example
+      with_scorer:
+        optional scoring function which can perform
+        additional evaluation and plot its results
 
     Returns:
       The created matplotlib figure.
@@ -58,35 +85,35 @@ def plot_all_toy_examples(
 
     for axr, (title, scorer) in zip(axs, scorers.items()):
         for ax, toy in zip(axr, toys):
+            pre_fit = time.perf_counter()
             scorer.detector.fit(toy.X_train, toy.Y_train)
+            post_fit = time.perf_counter()
+
             scorer.calibrate(toy.X_valid, toy.Y_valid)
+            post_calibrate = time.perf_counter()
 
             conf = scorer.predict(toy.X_test)
+            post_predict = time.perf_counter()
+
+            detector_size = _getsize(scorer.detector)
+            scorer_size = _getsize(scorer)
 
             toy.plot(conf, ax, cmap)
 
-            if with_scores:
-                expected = toy.is_in_distribution(toy.X_test)
-
-                TP = np.sum(conf * expected)
-                FP = np.sum(conf * (1 - expected))
-                # TN = np.sum((1 - conf) * (1 - expected))
-                FN = np.sum((1 - conf) * expected)
-
-                precision = TP / (TP + FP)
-                f1 = 2 * TP / (2 * TP + FP + FN)
-                roc = roc_auc_score(expected, conf)
-
-                ax.text(
-                    1.0 - 0.05 / toy.aspect_ratio,
-                    0.05,
-                    f"Pr = {precision:.03}\nF$_1$ = {f1:.03}\nROC = {roc:.03}",
-                    ha="right",
-                    va="bottom",
-                    size=12,
-                    c="white",
-                    bbox=dict(facecolor="black", alpha=0.5, edgecolor="white"),
-                    transform=ax.transAxes,
+            if with_scorer is not None:
+                with_scorer(
+                    scorer,
+                    toy,
+                    Evaluation(
+                        fit_time=post_fit - pre_fit,
+                        calibrate_time=post_calibrate - post_fit,
+                        predict_time=post_predict - post_calibrate,
+                        detector_size=detector_size,
+                        scorer_size=scorer_size - detector_size,
+                        expected=toy.is_in_distribution(toy.X_test),
+                        confidence=conf,
+                    ),
+                    ax,
                 )
 
         if with_titles and len(axr) > with_cbar:
@@ -128,3 +155,34 @@ def plot_all_toy_examples(
     fig.subplots_adjust(wspace=0.1, hspace=0.1)
 
     return fig
+
+
+def _getsize(obj: Any) -> int:
+    # https://stackoverflow.com/a/30316760
+    #
+    # Custom objects know their class.
+    # Function objects seem to know way too much, including modules.
+    # Exclude modules as well.
+    BLACKLIST = type, ModuleType, FunctionType
+
+    if isinstance(obj, BLACKLIST):
+        raise TypeError(
+            f"getsize() does not take argument of type: {type(obj)}"
+        )
+
+    seen_ids = set()
+    size = 0
+    objects = [obj]
+
+    while len(objects) > 0:
+        need_referents = []
+
+        for obj in objects:
+            if not isinstance(obj, BLACKLIST) and id(obj) not in seen_ids:
+                seen_ids.add(id(obj))
+                size += sys.getsizeof(obj)
+                need_referents.append(obj)
+
+        objects = get_referents(*need_referents)
+
+    return size
