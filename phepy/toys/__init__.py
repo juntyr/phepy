@@ -36,7 +36,7 @@ class ToyExample(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def normalised_pdf(X: np.ndarray) -> np.ndarray:
+    def is_in_distribution(X: np.ndarray) -> np.ndarray:
         pass
 
     @property

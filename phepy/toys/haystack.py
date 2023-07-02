@@ -4,7 +4,6 @@ from typing import Union
 
 import matplotlib as mpl
 import numpy as np
-import scipy as sp
 
 from . import ToyExample
 
@@ -78,25 +77,9 @@ class HaystackToyExample(ToyExample):
             [[1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]]
         ) - np.array([[0.0, 0.0, 0.0, 0.42, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]])
 
-    def normalised_pdf(self, X: np.ndarray) -> np.ndarray:
-        mean = np.zeros(shape=(10,))
-        mean[3] = -0.42
-
-        cov = np.copy(self.__covs)
-        cov[3, :] = 0.0
-        cov[:, 3] = 0.0
-
-        return sp.stats.multivariate_normal.pdf(
-            X,
-            mean=mean,
-            cov=cov,
-            allow_singular=True,
-        ) / sp.stats.multivariate_normal.pdf(
-            mean,
-            mean=mean,
-            cov=cov,
-            allow_singular=True,
-        )
+    def is_in_distribution(self, X: np.ndarray) -> np.ndarray:
+        # Can only be ID if the constant feature value matches
+        return X[:, 3] == -0.42
 
     @property
     def aspect_ratio(self) -> float:

@@ -2,6 +2,7 @@ from typing import Dict, List, Union
 
 import matplotlib as mpl
 import numpy as np
+from sklearn.metrics import roc_auc_score
 
 from . import OutOfDistributionScorer, ToyExample
 
@@ -12,6 +13,7 @@ def plot_all_toy_examples(
     cmap: Union[str, mpl.colors.Colormap],
     with_cbar: bool = True,
     with_titles: bool = True,
+    with_scores: bool = False,
 ) -> mpl.figure.Figure:
     """Plot the out-of-distribution (OOD) detection performance
     of all given scorers across all given toy examples.
@@ -34,6 +36,9 @@ def plot_all_toy_examples(
       with_titles:
         whether each method's name should be added as a
         title to each row of subplots
+      with_scores:
+        whether each method's precision, F1, and ROC-AUC
+        scores should be displayed for each toy example
 
     Returns:
       The created matplotlib figure.
@@ -57,19 +62,32 @@ def plot_all_toy_examples(
             scorer.calibrate(toy.X_valid, toy.Y_valid)
 
             conf = scorer.predict(toy.X_test)
-            expected = toy.normalised_pdf(toy.X_test)
-
-            TP = np.sum(conf * expected)
-            FP = np.sum(conf * (1 - expected))
-            # TN = np.sum((1 - conf) * (1 - expected))
-            FN = np.sum((1 - conf) * expected)
-
-            precision = TP / (TP + FP)
-            f1 = 2 * TP / (2 * TP + FP + FN)
-
-            print(precision, f1)
 
             toy.plot(conf, ax, cmap)
+
+            if with_scores:
+                expected = toy.is_in_distribution(toy.X_test)
+
+                TP = np.sum(conf * expected)
+                FP = np.sum(conf * (1 - expected))
+                # TN = np.sum((1 - conf) * (1 - expected))
+                FN = np.sum((1 - conf) * expected)
+
+                precision = TP / (TP + FP)
+                f1 = 2 * TP / (2 * TP + FP + FN)
+                roc = roc_auc_score(expected, conf)
+
+                ax.text(
+                    1.0 - 0.05 / toy.aspect_ratio,
+                    0.05,
+                    f"Pr = {precision:.03}\nF$_1$ = {f1:.03}\nROC = {roc:.03}",
+                    ha="right",
+                    va="bottom",
+                    size=12,
+                    c="white",
+                    bbox=dict(facecolor="black", alpha=0.5, edgecolor="white"),
+                    transform=ax.transAxes,
+                )
 
         if with_titles and len(axr) > with_cbar:
             axr[0].text(

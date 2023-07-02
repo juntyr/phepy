@@ -4,7 +4,6 @@ from typing import Union
 
 import matplotlib as mpl
 import numpy as np
-import scipy as sp
 
 from . import ToyExample
 
@@ -64,12 +63,9 @@ class LineToyExample(ToyExample):
             / np.matmul(np.array([[1.0, 0.5]]), np.array([[1.0], [0.5]]))
         )
 
-    def normalised_pdf(self, X: np.ndarray) -> np.ndarray:
-        return sp.stats.norm.pdf(
-            np.linalg.norm(X - self.reconstruct(X), axis=1),
-            loc=0.0,
-            scale=0.1,
-        ) / sp.stats.norm.pdf(0.0, loc=0.0, scale=0.1)
+    def is_in_distribution(self, X: np.ndarray) -> np.ndarray:
+        # Two standard deviations off the mean -> 95.45% interval
+        return np.linalg.norm(X - self.reconstruct(X), axis=1) <= 0.2
 
     @property
     def aspect_ratio(self) -> float:

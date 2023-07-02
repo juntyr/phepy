@@ -4,7 +4,6 @@ from typing import Union
 
 import matplotlib as mpl
 import numpy as np
-import scipy as sp
 
 from . import ToyExample
 
@@ -70,41 +69,9 @@ class CircleToyExample(ToyExample):
 
         return np.stack([X1, X2], axis=1)
 
-    def normalised_pdf(self, X: np.ndarray) -> np.ndarray:
-        if getattr(CircleToyExample, "__pdf_norm", None) is None:
-            rng = np.random.default_rng(seed=1283)
-
-            bins = np.linspace(-7.505, 7.495, 1501)
-            acc = np.zeros(shape=(1500, 1500))
-
-            M = 100
-            for _ in range(M):
-                N = 10_000_000
-
-                Y = np.sin(np.linspace(0, np.pi * 8.0, N))
-
-                X1 = np.sin(np.linspace(0, np.pi * 2.0, N)) * (5 + Y)
-                X2 = np.cos(np.linspace(0, np.pi * 2.0, N)) * (5 + Y)
-
-                X1 += rng.normal(loc=0.0, scale=0.1, size=N)
-                X2 += rng.normal(loc=0.0, scale=0.1, size=N)
-
-                acc += np.histogram2d(X1, X2, bins=bins, density=True)[0]
-
-            pdf_norm = acc / np.amax(acc)
-
-            coords = np.linspace(-7.5, 7.5, 1500)
-            CircleToyExample.__pdf_norm = (
-                sp.interpolate.RegularGridInterpolator(
-                    (coords, coords),
-                    pdf_norm,
-                    method="linear",
-                    bounds_error=False,
-                    fill_value=0.0,
-                )
-            )
-
-        return CircleToyExample.__pdf_norm(X)
+    def is_in_distribution(self, X: np.ndarray) -> np.ndarray:
+        # Two standard deviations off the mean -> 95.45% interval
+        return np.linalg.norm(X - self.reconstruct(X), axis=1) <= 0.2
 
     @property
     def aspect_ratio(self) -> float:
