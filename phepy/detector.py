@@ -77,3 +77,22 @@ class PercentileScorer(OutOfDistributionScorer):
             if type(self.detector).low_score_is_low_confidence()
             else 1.0 - S_test
         )
+
+
+class IdentityScorer(OutOfDistributionScorer):
+    def __init__(self, detector: OutOfDistributionDetector) -> IdentityScorer:
+        super().__init__(detector)
+
+    def calibrate(
+        self, X_valid: np.ndarray, Y_valid: np.ndarray
+    ) -> IdentityScorer:
+        return self
+
+    def predict(self, X_test: np.ndarray) -> np.ndarray:
+        S_test = self.detector.predict(X_test)
+
+        return (
+            S_test
+            if type(self.detector).low_score_is_low_confidence()
+            else 1.0 - S_test
+        )

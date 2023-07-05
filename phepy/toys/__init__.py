@@ -50,5 +50,6 @@ class ToyExample(abc.ABC):
         conf: np.ndarray,
         ax: mpl.axes.Axes,
         cmap: Union[str, mpl.colors.Colormap],
+        with_scatter: bool = True,
     ):
         pass
