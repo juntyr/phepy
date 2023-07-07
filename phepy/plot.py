@@ -1,8 +1,9 @@
+import dataclasses
+import gc
 import sys
 import time
-from dataclasses import dataclass
-from gc import get_referents
-from types import FunctionType, ModuleType
+from types import FunctionType as _FunctionType
+from types import ModuleType as _ModuleType
 from typing import Any, Callable, Dict, List, Union
 
 import matplotlib as mpl
@@ -11,7 +12,7 @@ import numpy as np
 from . import OutOfDistributionScorer, ToyExample
 
 
-@dataclass
+@dataclasses.dataclass
 class Evaluation:
     fit_time: float
     calibrate_time: float
@@ -24,7 +25,7 @@ class Evaluation:
     confidence: np.ndarray
 
 
-@dataclass
+@dataclasses.dataclass
 class ColorBar:
     title: str
     low: str
@@ -210,7 +211,7 @@ def _getsize(obj: Any) -> int:
     # Custom objects know their class.
     # Function objects seem to know way too much, including modules.
     # Exclude modules as well.
-    BLACKLIST = type, ModuleType, FunctionType
+    BLACKLIST = type, _ModuleType, _FunctionType
 
     if isinstance(obj, BLACKLIST):
         raise TypeError(
@@ -230,6 +231,6 @@ def _getsize(obj: Any) -> int:
                 size += sys.getsizeof(obj)
                 need_referents.append(obj)
 
-        objects = get_referents(*need_referents)
+        objects = gc.get_referents(*need_referents)
 
     return size

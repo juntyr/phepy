@@ -81,12 +81,21 @@ plugins:
               docstring_style: google
               merge_init_into_class: true
               show_if_no_docstring: true
-              filters: ["!^_[^_]", "!^__", "^__.*__$"]
-              members_order: source
+              filters: [
+                "!^_$", "!^_[^_]", "!^__", "^__.*__$",
+                "!^Any$", "!^Callable$", "!^Dict$", "!^List$", "!^Union$",
+              ]
+              members_order: alphabetical
               group_by_category: false
               separate_signature: true
               show_signature_annotations: true
+              signature_crossrefs: true
               show_submodules: false
+              preload_modules: [
+                "__future__",
+                "abc", "dataclasses", "gc", "sys", "time", "types", "typing",
+                "matplotlib", "numpy",
+              ]
           import:
             - https://docs.python.org/3/objects.inv
             - https://numpy.org/doc/stable/objects.inv
