@@ -63,6 +63,10 @@ class LineToyExample(ToyExample):
             / np.matmul(np.array([[1.0, 0.5]]), np.array([[1.0], [0.5]]))
         )
 
+    def is_in_distribution(self, X: np.ndarray) -> np.ndarray:
+        # Two standard deviations off the mean -> 95.45% interval
+        return np.linalg.norm(X - self.reconstruct(X), axis=1) <= 0.2
+
     @property
     def aspect_ratio(self) -> float:
         return 14 / 9
@@ -72,6 +76,7 @@ class LineToyExample(ToyExample):
         conf: np.ndarray,
         ax: mpl.axes.Axes,
         cmap: Union[str, mpl.colors.Colormap],
+        with_scatter: bool = True,
     ):
         N_skip = len(self.X_train) // 40
 
@@ -89,19 +94,20 @@ class LineToyExample(ToyExample):
         ax.set_xlim(-2, 12)
         ax.set_ylim(-1, 8)
 
-        ax.scatter(
-            self.X_train[::N_skip, 0],
-            self.X_train[::N_skip, 1],
-            c="white",
-            marker="x",
-            lw=3,
-            s=48,
-        )
-        ax.scatter(
-            self.X_train[::N_skip, 0],
-            self.X_train[::N_skip, 1],
-            c="black",
-            marker="x",
-        )
+        if with_scatter:
+            ax.scatter(
+                self.X_train[::N_skip, 0],
+                self.X_train[::N_skip, 1],
+                c="white",
+                marker="x",
+                lw=3,
+                s=48,
+            )
+            ax.scatter(
+                self.X_train[::N_skip, 0],
+                self.X_train[::N_skip, 1],
+                c="black",
+                marker="x",
+            )
 
         ax.axis("off")

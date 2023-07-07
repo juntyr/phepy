@@ -35,6 +35,10 @@ class ToyExample(abc.ABC):
     def reconstruct(X: np.ndarray) -> np.ndarray:
         pass
 
+    @abc.abstractmethod
+    def is_in_distribution(X: np.ndarray) -> np.ndarray:
+        pass
+
     @property
     @abc.abstractmethod
     def aspect_ratio(self) -> float:
@@ -46,5 +50,6 @@ class ToyExample(abc.ABC):
         conf: np.ndarray,
         ax: mpl.axes.Axes,
         cmap: Union[str, mpl.colors.Colormap],
+        with_scatter: bool = True,
     ):
         pass

@@ -76,6 +76,10 @@ class HaystackToyExample(ToyExample):
             [[1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]]
         ) - np.array([[0.0, 0.0, 0.0, 0.42, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]])
 
+    def is_in_distribution(self, X: np.ndarray) -> np.ndarray:
+        # Can only be ID if the constant feature value matches
+        return X[:, 3] == -0.42
+
     @property
     def aspect_ratio(self) -> float:
         return 1.0
@@ -85,6 +89,7 @@ class HaystackToyExample(ToyExample):
         conf: np.ndarray,
         ax: mpl.axes.Axes,
         cmap: Union[str, mpl.colors.Colormap],
+        with_scatter: bool = True,
     ):
         ax.spines["top"].set_visible(False)
         ax.spines["right"].set_visible(False)
@@ -97,6 +102,7 @@ class HaystackToyExample(ToyExample):
 
         ax.axvline(-0.42, c="white", lw=7, zorder=-1)
 
+        # with_scatter is ignored
         ax.scatter(self.X_test[:, 3], conf, c="white", s=6, rasterized=True)
         ax.scatter(self.X_test[:, 3], conf, c="black", s=1, rasterized=True)
 
