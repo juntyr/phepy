@@ -24,7 +24,6 @@ class HaystackToyExample(ToyExample):
         A = A * np.transpose(A)
         D_half = np.diag(np.diag(A) ** (-0.5))
         covs = D_half * A * D_half
-        self.__covs = covs
 
         X = rng.multivariate_normal(np.zeros(shape=n), covs, size=N)
         X[:, 3] = -0.42
