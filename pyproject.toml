@@ -1,6 +1,6 @@
 [project]
 name = "phepy"
-version = "0.0.0"
+version = "0.1.0"
 requires-python = ">=3.7"
 description = "Intuitive evaluation of out-of-distribution detectors using simple toy examples."
 readme = "README.md"
@@ -51,4 +51,4 @@ push            = false
 
 [tool.bumpver.file_patterns]
 "pyproject.toml" = ['current_version = "{version}"', 'version = "{version}"']
-"CITATION.cff" = ['^version: {version}', "^commit: '{version}'", 'https://pypi.org/project/phepy/{version}/', 'https://github.com/juntyr/phepy/releases/tag/{version}', "date-released: 'YYYY-0M-0D'"]
+"CITATION.cff" = ['^version: {version}', "^commit: 'v{version}'", 'https://pypi.org/project/phepy/{version}/', 'https://github.com/juntyr/phepy/releases/tag/v{version}', "date-released: 'YYYY-0M-0D'"]

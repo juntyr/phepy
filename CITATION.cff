@@ -16,10 +16,10 @@ authors:
 identifiers:
   - type: url
     value: >-
-      https://github.com/juntyr/phepy/releases/tag/0.0.0
+      https://github.com/juntyr/phepy/releases/tag/v0.1.0
     description: The GitHub release
   - type: url
-    value: 'https://pypi.org/project/phepy/0.0.0/'
+    value: 'https://pypi.org/project/phepy/0.1.0/'
     description: The PyPi release
 repository-code: 'https://github.com/juntyr/phepy'
 abstract: >-
@@ -30,6 +30,6 @@ keywords:
   - visualisation
   - explainable-ai
 license: MIT OR Apache-2.0
-commit: '0.0.0'
-version: 0.0.0
-date-released: '2023-05-04'
+commit: 'v0.1.0'
+version: 0.1.0
+date-released: '2023-07-07'
