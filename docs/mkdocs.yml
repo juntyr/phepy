@@ -82,13 +82,17 @@ plugins:
               merge_init_into_class: true
               show_if_no_docstring: true
               filters: [
-                "!^_$", "!^_[^_]", "!^__", "^__.*__$",
+                "!^_$", "!^_[^_]", "!^__", "^__.*__$", "!__all__$",
                 "!^Any$", "!^Callable$", "!^Dict$", "!^List$", "!^Union$",
               ]
               members_order: alphabetical
               group_by_category: false
+              show_symbol_type_heading: true
+              show_symbol_type_toc: true
               separate_signature: true
+              show_signature: true
               show_signature_annotations: true
+              annotations_path: source
               signature_crossrefs: true
               show_submodules: false
               preload_modules: [

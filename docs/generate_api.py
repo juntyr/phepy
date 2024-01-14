@@ -2,6 +2,7 @@
 Adapted from: https://github.com/proxystore/proxystore/blob/main/docs/generate_api.py # noqa: E501
 Licensed under the MIT license
 """
+
 from __future__ import annotations
 
 from pathlib import Path

@@ -1,3 +1,9 @@
+__all__ = [
+    "OutOfDistributionDetector",
+    "OutOfDistributionScorer",
+    "ToyExample",
+]
+
 from matplotlib import pyplot as _  # noqa: F401
 
 from .detector import OutOfDistributionDetector  # noqa: F401
